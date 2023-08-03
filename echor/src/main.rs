@@ -1,3 +1,5 @@
+use std::env::args;
+
 use clap::{arg, Command};
 
 
@@ -8,4 +10,5 @@ fn main() {
         .author("Evan S")
         .about("simple Rust implementation of echo")
         .get_matches();
+        .args();
 }
