@@ -1,3 +1,4 @@
+#![feature(iter_intersperse)]
 use clap::{arg, Arg, Command, value_parser, ArgAction};
 
 
@@ -22,7 +23,8 @@ fn main() {
             .help("do not print new line")
         )
         .get_matches();
-    let text = matches.get_many::<Vec<String>>("text").unwrap();
-    println!("{:#?}", matches);
-    println!("{:?}", text);
+    let text: Vec<&String> = matches.get_many("text").expect("failed").collect();
+    //println!("{:#?}", matches);
+    let final_text: String = text.into_iter().cloned().intersperse(" ".to_string()).collect();
+    println!("{:?}", final_text);
 }
