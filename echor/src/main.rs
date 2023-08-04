@@ -26,5 +26,5 @@ fn main() {
     let text: Vec<&String> = matches.get_many("text").expect("failed").collect();
     //println!("{:#?}", matches);
     let final_text: String = text.into_iter().cloned().intersperse(" ".to_string()).collect();
-    println!("{:?}", final_text);
+    println!("{}", final_text);
 }
