@@ -1,4 +1,4 @@
-use clap::{arg, Arg, Command};
+use clap::{arg, Arg, Command, value_parser, ArgAction};
 
 
 fn main() {
@@ -8,11 +8,13 @@ fn main() {
         .author("Evan S")
         .about("simple Rust implementation of echo")
         .arg(
-            Arg::new("Text")
+            Arg::new("text")
+            .value_parser(value_parser!(String))
             .help("input text")
             .value_name("TEXT")
-            .required(true)
-        
+            .required(true) 
+            .num_args(1..)
+            .action(ArgAction::Set)
         )
         .arg(
             Arg::new("omit_newline")
@@ -20,5 +22,7 @@ fn main() {
             .help("do not print new line")
         )
         .get_matches();
-    println!("{:?}", matches)
+    let text = matches.get_many::<Vec<String>>("text").unwrap();
+    println!("{:#?}", matches);
+    println!("{:?}", text);
 }
