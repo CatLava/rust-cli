@@ -37,7 +37,6 @@ pub fn get_args() -> MyResult<Config> {
                 .required(false)
         )
         .get_matches();
-    println!("{:#?}", items);
 
     Ok(Config {
         files: items.get_many("files")
@@ -49,7 +48,7 @@ pub fn get_args() -> MyResult<Config> {
     })
 
 }
-pub fn run() -> MyResult<()> {
-    println!("Hello");
+pub fn run(config: Config) -> MyResult<()> {
+    dbg!(config);
     Ok(())
 }
