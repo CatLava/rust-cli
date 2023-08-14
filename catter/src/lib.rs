@@ -1,4 +1,6 @@
 use std::error::Error;
+use std::fs::File;
+use std::io::{self, BufRead, BufReader};
 use clap::{arg, Arg, Command, value_parser, ArgAction};
 
 
@@ -18,7 +20,6 @@ pub fn get_args() -> MyResult<Config> {
         .arg(
             Arg::new("files")
                 .help("list of files to cat")
-                .short('f')
                 .required(true)
                 .num_args(1..)
                 .value_parser(value_parser!(String))
@@ -28,12 +29,14 @@ pub fn get_args() -> MyResult<Config> {
             Arg::new("number_lines")
                 .help("number the lines of catted file; bool")
                 .short('n')
+                .num_args(0) // used instead of takes_value
                 .required(false)
         )
         .arg(
             Arg::new("number_nonblank_lines")
                 .help("count blank lines; bool")
                 .short('b')
+                .num_args(0)
                 .required(false)
         )
         .get_matches();
@@ -43,12 +46,14 @@ pub fn get_args() -> MyResult<Config> {
                         .unwrap()
                         .map(|a: &String| a.to_string())
                         .collect(),
-        number_lines: false,
-        number_nonblank_lines: false
+        number_lines: items.get_flag("number_lines"),
+        number_nonblank_lines: items.get_flag("number_nonblank_lines")
     })
 
 }
 pub fn run(config: Config) -> MyResult<()> {
-    dbg!(config);
+    for filename in config.files {
+        println!("{}", filename)
+    }
     Ok(())
 }
