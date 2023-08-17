@@ -57,3 +57,10 @@ pub fn run(config: Config) -> MyResult<()> {
     }
     Ok(())
 }
+
+pub fn open(filename: &str) -> MyResult<Box<dyn BufRead>> {
+    match filename {
+        "-" => Ok(Box::new(BufReader::new(io::stdin()))), 
+        _ => Ok(Box::new(BufReader::new(File::open(filename)?))),
+    }
+}
