@@ -53,7 +53,24 @@ pub fn get_args() -> MyResult<Config> {
 }
 pub fn run(config: Config) -> MyResult<()> {
     for filename in config.files {
-        println!("{}", filename)
+        println!("{}", filename);
+        let file = match open(&filename) {
+            Ok(file) => { 
+                let mut lc = 0;
+                for line in file.lines(){
+                    let liner = line?;
+                    if config.number_lines {
+                        println!("{} {}", lc, liner)
+                    } else {
+                        println!("{}", liner);
+                    }
+                    lc += 1
+                }
+                println!("read file {}", filename);
+            },
+            Err(err) => eprintln!("unable to read file {}: {}", filename, err)
+        };
+
     }
     Ok(())
 }
